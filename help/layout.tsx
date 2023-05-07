@@ -1,0 +1,1 @@
+//is the layout applied to all pages of the same directory or level
