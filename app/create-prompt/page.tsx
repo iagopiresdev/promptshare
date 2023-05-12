@@ -5,6 +5,18 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Form from "@components/Form"
 
+//gpt is my savior
+declare module "next-auth" {
+  interface Session {
+    user: {
+      name: string;
+      email: string;
+      image: string;
+      id: string;
+    }
+  }
+}
+
 function CreatePrompt() {
     const router = useRouter();
     const { data: session } = useSession();
@@ -18,12 +30,15 @@ function CreatePrompt() {
       e.preventDefault();
       setsubmit(true);
 
+      //console.log(session?.user);
+      //console.log(session?.user.id);
+
       try {
-        const response = await fetch('/api/prompt/new', {
+        const response = await fetch('./api/prompt/new', {
           method: 'POST',
           body: JSON.stringify({
+            userId: session?.user.id,
             prompt: post.prompt, 
-            userId: session?.user,
             tag: post.tag
           }),
         });
@@ -31,6 +46,7 @@ function CreatePrompt() {
         if (response.ok) {
           router.push('/')
         }
+
       } catch (error) {
         console.log(error);
         

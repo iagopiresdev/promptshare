@@ -18,6 +18,37 @@ const handler = NextAuth({
       session.user.id = sessionUser._id.toString();
       return session;
     },
+
+    async signIn({ account, profile, user, credentials }) {
+      if (!profile) return false; //undefined profile
+
+      try {
+        await connectDB();
+
+        // check if user already exists
+        const userExists = await User.findOne({ email: profile.email });
+
+        // if not, create a new document and save user in db
+        if (!userExists) {
+          await User.create({
+            email: profile.email,
+            username: profile.name?.replace(" ", "").toLowerCase(),
+            image: profile.image,
+          });
+        }
+        return true;
+
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    },
+  },
+});
+
+export { handler as GET, handler as POST };
+
+    /*
     async signIn({ profile }: any) {
       try {
         await connectDB();
@@ -45,7 +76,7 @@ const handler = NextAuth({
 
 export { handler as GET, handler as POST };
 
-/*
+//antigo
 
 const handler = NextAuth({
     providers: [
