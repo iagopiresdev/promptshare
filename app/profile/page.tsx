@@ -6,6 +6,13 @@ import { useRouter } from "next/navigation";
 import Profile from "@components/Profile";
 import { Router } from "next/router";
 
+interface MyPosts {
+    filter: any;
+    _id: string;
+
+  }
+  
+
 function MyProfile() {
     const { data: session } = useSession();
     const [myPosts, setMyPosts] = useState([]);
@@ -24,11 +31,11 @@ function MyProfile() {
         }
     }, [session?.user.id]); 
 
-    const handleEdit = (myPosts):any => {
+    const handleEdit = (myPosts: { _id: any; }):any => {
         router.push(`/update-prompt?id=${myPosts._id}`);
     }
 
-    const handleDelete = async (myPosts) => {
+    const handleDelete = async (myPosts:MyPosts) => {
         const hasConfirmed = confirm('Tem certeza que deseja deletar?');
 
         if(hasConfirmed){
@@ -36,7 +43,7 @@ function MyProfile() {
                 await fetch (`/api/prompt/${myPosts._id.toString()}`, {
                     method: 'DELETE',
                 });
-                const filteredPosts = myPosts.filter((post) => post._id !== myPosts._id);
+                const filteredPosts = myPosts.filter((post: { _id: string; }) => post._id !== myPosts._id);
                 setMyPosts(filteredPosts);
                 
             } catch (error) {
