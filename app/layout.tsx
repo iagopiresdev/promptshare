@@ -2,11 +2,11 @@ import React from 'react';
 import '@styles/globals.css';
 import Nav from '@components/Nav'
 import Provider from '@components/Provider'
-import  RootLayoutProps  from '../types/RootLayoutProps';
+import RootLayoutProps from '../types/RootLayoutProps';
 
 export const metadata = {
     title: 'PromptShare',
-    description: 'Discover and Share AI Prompts'
+    description: 'Descubra e compartilhe prompts!', 
 }
 
 function RootLayout({ children }: RootLayoutProps) {

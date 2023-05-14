@@ -4,15 +4,13 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Profile from "@components/Profile";
-import { Router } from "next/router";
 
 interface MyPosts {
     filter: any;
     _id: string;
 
-  }
+}
   
-
 function MyProfile() {
     const { data: session } = useSession();
     const [myPosts, setMyPosts] = useState([]);
